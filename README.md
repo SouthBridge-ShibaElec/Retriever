@@ -1,5 +1,5 @@
 # Retriever
-<img src="https://raw.githubusercontent.com/SouthBridge-ShibaElec/Retriever/master/favicon.png" alt="Retrieverアイコン"width="200" height="200">
+![Retrieverアイコン](https://raw.githubusercontent.com/SouthBridge-ShibaElec/Retriever/master/docker-django/django/retriever/static/retriever/icon-192x192.png?token=AMVJJGJ4VFDYNY7P3Z7RZQC5GOOBS)
 
 Docker上で動作する宅内LAN用Webアプリケーションです。
 画像ファイルや動画ファイルを収集し、利用しやすいように取り出せるよう管理します。
