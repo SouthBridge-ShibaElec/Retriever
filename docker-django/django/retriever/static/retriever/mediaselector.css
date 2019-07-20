@@ -1,0 +1,43 @@
+/*media selector over wrap container*/
+#mediaSelector{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: flex-start;
+}
+
+/*media contents card in media selector*/
+#mediaSelector > .card-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+
+    width: 200px;
+    box-sizing: content-box;
+    flex-grow: 0;
+
+    margin: 1.25rem 0;
+    padding: 1.25rem;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+}
+#mediaSelector > .card-body > *{
+    display: block;
+    max-width: 200px;
+}
+#mediaSelector > .card-body > .hidden{
+    display: none;
+}
+#mediaSelector > .card-body > .card-text {
+    margin-bottom: 0.25rem;
+}
+
+/*media contents card interaction with jquery ui*/
+#mediaSelector > .card-body.ui-selecting{
+    background: #94bfc0
+}
+#mediaSelector > .card-body.ui-selected{
+    background: #51a1a2
+}

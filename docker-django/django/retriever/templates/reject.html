@@ -1,0 +1,84 @@
+{#ベーステンプレートに展開#}
+{% extends "base.html" %}
+{#静的ファイルのURLを展開する#}
+{% load static %}
+
+{#ブラウザに表示するタイトル#}
+{% block page_title %}Reject - Retriever --Image Rungling System-- {% endblock %}
+
+{#追加CSSの読み込み#}
+{% block extra_css %}
+<!--ナビゲーションメニュー用CSS-->
+<link rel="stylesheet" type="text/css" href="{% static 'retriever/nav.css' %}">
+<!--ファイル複数選択コントロール用CSS-->
+<link rel="stylesheet" type="text/css" href="{% static 'retriever/mediaselector.css' %}">
+<!--ファイル除外画面用CSS-->
+<link rel="stylesheet" type="text/css" href="{% static 'retriever/reject.css' %}">
+{% endblock %}
+
+{#ナビゲーションメニューを展開#}
+{% block nav %}
+{% include "nav.html" %}
+{% endblock %}
+
+{#コンテンツを展開#}
+{% block content %}
+<!--ページタイトル-->
+<h1 class="row justify-content-center">Media reject operation panel</h1>
+
+<!--POST送信用データを集める非レンダリングフォーム-->
+<!--送信予定データはJSで集めてココにappendしていく-->
+<form id="hiddenForm" action="{% url 'reject' %}" method="POST">
+    <!--CSRFトークンをココに入れておくとそのまま飛ばせる-->
+    {% csrf_token %}
+</form>
+
+<!--jquery UI 複数選択エリア-->
+<ul id="mediaSelector" class="card">
+    <!--リストが空の場合は個々にエラーメッセージが出る-->
+    {#contextにbrankListキーワードが存在する場合はエラーメッセージとして表示し処理を止める#}
+    {% if blankList %}
+        <p>{{ blankList }}</p>
+    {#contextにbrankListキーワードが存在しない場合はメディアファイルのリストをレンダリング#}
+    {% else %}
+        {#recordListからレコードを抜き出し、選択用カードとしてレンダリングしていく#}
+        {% for recordPick in recordList %}
+        <!--JSではカード本体に乗っているプライマリキーを拾う-->
+        <li class="card-body ui-state-default" pk="{{ recordPick.pk }}">
+            <!--画像にはpopupクラスを指定し、クリックポップアップさせるJSに紐つける-->
+            <img class="popup" src="{{ recordPick.mediafile.url }}">
+            <!--コレはデバッグ用。無くしてもいいかも。-->
+            <p class="card-text hidden">{{ recordPick.pk }}</p>
+            <!--ファイル名で内容を推測しやすくする-->
+            <p class="card-text">{{ recordPick.filename }}</p>
+            <!--登録日を表示して新しいファイルを残せるようにする-->
+            <p class="card-text">{{ recordPick.madedate|date:"Y年m月d日  H:i:s  u" }}</p>
+        </li>
+        {% endfor %}
+    {% endif %}
+</ul>
+
+<!--ページ下部スクロール追従エリアに集中コントロールを配置-->
+<div class="bottomInput fixed">
+    <!--除外ファイル処遇選択-->
+    <div id="selectReject">
+        <input type="radio" id="selectRejectClassify" name="selectReject" value="classify" checked="checked"/><label for="selectRejectClassify">再分類</label>
+        <input type="radio" id="selectRejectDelete" name="selectReject" value="delete"/><label for="selectRejectDelete">削除</label>
+    </div>
+    
+    <!--除外ファイル処遇実行、JSの処理が走る-->
+    <input id="setReject" type="button" value="処遇実行">
+
+    <!--ファイル選んでないよエラーはココに出す-->
+    {% if selectMediaErr %}<strong class="text-danger">{{ selectMediaErr }}</strong>{% endif %}
+    <!--処遇指定してないよエラーはココに出す-->
+    {% if selectRejectErr %}<strong class="text-danger">{{ selectRejectErr }}</strong>{% endif %}
+
+</div>
+{% endblock %}
+
+{#自作JSをココに配置#}
+{% block extra_js %}
+<!--ファイル除外画面のコントロール駆動とデータ送信を行うJS-->
+<script src="{% static 'retriever/reject.js' %}"></script>
+{% endblock %}

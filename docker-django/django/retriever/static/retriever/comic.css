@@ -1,0 +1,230 @@
+/*メインエリアは縦並びに配置。高さを画面ぴったりにする*/
+main {
+    display: flex;
+    flex-direction:column;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+
+    padding-bottom: 15px;
+    box-sizing: border-box;
+    height: 100vh;
+    min-height: auto;
+}
+/*画面タイトルは中央揃えがかっこいいかと。*/
+main h1 {
+    text-align: center;
+}
+
+
+/*要素全体を包むDOMの表示設定*/
+main > form{
+    /*画面を横並びにする*/
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    flex-shrink: 1;
+    flex-grow: 1;
+    height: 70%;
+}
+/*漫画選択エリア用の表示設定。伸びも縮みもせず、幅を規定*/
+.comicBox{
+    flex-grow: 0;
+    flex-shrink: 0;
+    /*ページソートエリアの黄金比縮小。2乗で割引*/
+    max-width: 290px;
+}
+/*ファイル選択エリアの表示設定。一番柔軟に。*/
+.mediaBox{
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 250px;
+    margin: 0px 10px;
+}
+/*漫画登録済みエリアの表示設定。伸びも縮みもせず、幅を規定*/
+.pageBox{
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 380px;
+}
+
+
+/*漫画選択エリア内のレイアウト設定*/
+.comicBox{
+    display: flex;
+    flex-direction:column;
+    justify-content: space-between;
+}
+.comicBox .new_comic{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    margin-bottom: 1rem;
+}
+.comicBox .new_comic > label{
+    display: block;
+}
+.comicBox .new_comic > label > input {
+    display: block;
+    width: 100%;
+}
+/*漫画一覧エリアはよく伸びる設定に。スクロールバーを付けてリスト全域を見れるように*/
+.comicBox .comic_list{
+    flex-grow: 1;
+    overflow-y: scroll;
+
+    padding: 10px;
+    margin: 0px;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+
+    list-style-type: none;
+}
+/*各漫画カード内のレイアウト設定。横並びにする*/
+.comicBox .comic_list li{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    background: #f6f6f6;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+    margin-bottom: 5px;
+    padding: 0.25rem;
+}
+/*カード用のサムネイル表示定義のギミック*/
+.comicBox .comic_list li .mediaFlame{
+    width: 80px;
+    height: 80px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-shrink: 0;
+}
+.comicBox .comic_list .mediaFlame img{
+    max-height: 80px;
+    max-width: 80px;
+    margin: auto auto;
+}
+
+.comicBox .comic_list li .detail{
+    padding: 0.25rem;
+}
+.comicBox .comic_list li a{
+    display: block;
+    flex-grow: 1;
+}
+
+
+/*ファイル選択エリア内の表示設定*/
+.mediaBox{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.mediaBox > #mediaSelector{
+    flex-shrink: 1;
+    flex-grow: 1;
+}
+.mediaBox > input{
+    display: block;
+}
+.mediaBox > .card{
+    padding: 10px;
+    overflow-y: scroll;
+}
+
+
+/*ページ順設定エリア内の表示設定*/
+.pageBox{
+    display: flex;
+    flex-direction:column;
+    justify-content: space-between;
+}
+.pageBox > input{
+    display: block;
+}
+/*リストはスクロールバーを設定して全域を見れるように。*/
+.pageBox > #pageSorter{
+    flex-grow: 1;
+    overflow-y: scroll;
+
+    padding: 10px;
+    margin: 0px;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+
+    list-style-type: none;
+}
+.pageBox > #setPage{
+    margin-top: 1rem;
+}
+/*漫画ページカード内の表示はflexboxの力で横並びの中央揃えに*/
+.pageBox #pageSorter li{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    background: #f6f6f6;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+    padding: 0.25rem;
+    margin-bottom: 5px;
+
+    width: 100%;
+}
+/*カーソルの見た目を変えて動かせる風の表示に*/
+.pageBox #pageSorter li:hover{
+    cursor: pointer;
+}
+.pageBox #pageSorter li > * {
+    margin: 0px 5px;
+}
+/*サムネイルのギミック*/
+.pageBox #pageSorter li .mediaFlame{
+    width: 80px;
+    height: 80px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-shrink: 0;
+}
+.pageBox #pageSorter li .mediaFlame img{
+    max-height: 80px;
+    max-width: 80px;
+    margin: auto auto;
+}
+/*漫画ページカードの中央ファイル名部はよく縮むようにする*/
+.pageBox #pageSorter li .recordDetail {
+    width: 150px;
+
+    flex-grow: 1;
+    flex-shrink: 1;
+
+    overflow-wrap: break-word;
+}
+.pageBox #pageSorter li .recordDetail > *{
+    margin-bottom: 2px;
+}
+.pageBox #pageSorter li .recordDetail > .hiddenPK {
+    display: none;
+}
+/*ページ番号エリアは固めてしまうことにした。*/
+.pageBox #pageSorter li .pageNum{
+    width: 52px;
+
+    text-align: center;
+    flex-shrink: 0;
+}
+/*ドラッグ投下先のエリアをハイライトして並び替えしやすく*/
+.pageBox #pageSorter .ui-state-highlight{
+    height: 30px;
+	border: 1px solid #dad55e;
+	background: #fffa90;
+	color: #777620;
+}

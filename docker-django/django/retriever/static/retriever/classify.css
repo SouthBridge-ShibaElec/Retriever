@@ -1,0 +1,40 @@
+/*アップロードエラー表示エリアの表示設定*/
+.uploadError > strong {
+    display: block;
+    margin-left: 300px;
+}
+
+/*ページ下部スクロール追従エリアの形状を固める*/
+.bottomInput.fixed{
+    /*スクロール追従エリアを設定*/
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+
+    /*エリア内部をflexboxで配置。横並び中央揃え*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    /*エリアの横幅を固定。背景が透けないようにする。ちょっとグラデーションでかっこよく。*/
+    width: 100%;
+    background: #c8c8c8 linear-gradient(180deg, #f0f0f0, #c8c8c8) repeat-x !important;
+
+    /*コンテンツが縁につかないよう余白を入れる*/
+    padding: 8px;
+}
+
+/*スクロール追従エリア内コントロール同士でくっつかないように余白を入れる*/
+.bottomInput.fixed > * {
+    margin: 8px auto;
+}
+
+/*ジャンル選択プルダウンメニューの長さを制限*/
+.overflow{
+    height: 200px;
+}
+
+/*スクロール追従エリアが刺さらないように交わすエリア*/
+main{
+    padding-bottom: 9rem;
+}

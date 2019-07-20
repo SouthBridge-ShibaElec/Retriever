@@ -1,0 +1,83 @@
+# Retrieverシステム構成用docker-compose
+
+# バージョン3.7として認識させる。ネットワーク絡みの設定がバージョン依存なので注意
+version: '3.7'
+
+# サービス用コンテナ起動設定
+# コンテナ名は被らないようにしないと他のシステムを起動できなくなる
+services:
+  # djangoサーバの設定
+  retriever_django:
+    # 常時起動させる
+    restart: always
+    # Dockerfileからコンテナをビルド
+    build: ./django
+    # ポート3031をネットワーク接続
+    expose:
+      - "3031"
+    # DBコンテナが起動開始してからdjangoサーバを起動開始
+    depends_on:
+      - retriever_postgres
+    # コンテナ起動後の実行コマンドを指定
+    # 毎回マイグレーションしてるのか…
+    command: bash -c "python manage.py migrate && gunicorn retriever_project.wsgi -b 0.0.0.0:3031"
+    # リンクポリュームを定義
+    volumes:
+      - "./nginxStatic:/opt/static/"  # 静的ファイルの格納ボリューム(nginxと共有)
+      - "./nginxMedia:/opt/media/"    # メディアファイルの格納ボリューム(nginxと共有)
+      - "./django:/opt/apps"          # アプリケーションコード格納ボリューム
+      - "./djangoLog:/opt/apps/log/"  # ログファイル格納ボリューム
+  
+  # nginxサーバの設定
+  retriever_nginx:
+    # 常時起動させる
+    restart: always
+    # dockerHubから取り寄せる
+    image: nginx
+    # djangoコンテナが起動開始してからnginxコンテナを起動開始する
+    depends_on:
+      - retriever_django
+# サービス自動振り分けnginxに管理させるので、ホストとのポートフォワードを切る
+#    ports:
+#      - "80:80"
+    # リンクポリュームを定義
+    volumes:
+      - "./nginx/:/etc/nginx/"              # nginx設定ファイル格納ボリューム
+      - "./nginxStatic:/opt/apps/static/"   # 静的ファイルの格納ボリューム(djangoと共有)
+      - "./nginxMedia:/opt/apps/media/"     # メディアファイルの格納ボリューム(djangoと共有)
+      - "./nginxLog:/opt/apps/log/"         # ログファイル格納ボリューム
+    # 環境変数を設定
+    environment:
+      TZ: Asia/Tokyo                    # 地域時刻として東京時間を使用
+      VIRTUAL_HOST: localhost           # 自サーバのホスト名を定義
+      LETSENCRYPT_HOST: localhost       # HTTPS認証用サーバホスト名(動かない)
+      LETENCRYPT_EMAIL: your@mail.com   # HTTPS認証期限切れを通知するメールアドレス(意味ない)
+  
+  # DBサーバの設定
+  retriever_postgres:
+    # 常時起動させる
+    restart: always
+    # dockerHubから取り寄せる
+    image: postgres
+# ホストとのポートフォワードはしない
+#    ports:
+#      - "5432:5432"
+    # DBデータファイルをリンクボリュームに格納し、ホスト側に保存する
+    # 主だってwindowsでシステムが動かないのでNamedVolumeに保存することにした。サイズもそこまで大きくならないだろうし。
+    volumes:
+      - "retriever_postgresData:/var/lib/postgresql/data"
+    # DBの接続パスワードを環境変数で指定
+    environment:
+      POSTGRES_PASSWORD: hogemojahogemoja
+
+# サービスコンテナの接続先ネットワークを指定
+networks:
+  default:
+    # 外部ネットワークservice_netにぶら下げる(自動配信nginxが監視・待ち受け)
+    external: true
+    name: service_net
+
+# postgres用のデータボリュームを探させる
+volumes: 
+  retriever_postgresData:
+    external: true

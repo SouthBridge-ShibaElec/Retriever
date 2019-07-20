@@ -1,0 +1,28 @@
+/*
+自由入力付きセレクトボックスの表示設定
+AutoCompleteWithPullDown.js
+と合わせて使うこと
+*/
+
+/*コントロールエリア全域の表示設定*/
+.custom-combobox {
+    /*flexBoxの力でボタンのズレを止め、大きさを揃える*/
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+}
+.custom-combobox > input {
+    /*コントロールの大きさを使えるサイズいっぱいにする*/
+    flex-grow: 1;
+}
+
+/*プルダウンメニューの長さを規定し、スクロールバーを表示する*/
+.overflow {
+    /*プルダウンメニューの長さはオーバーライドして調整すること。*/
+    height: 200px;
+
+    /*マウスホバーするとx方向に何故か伸びるみたいなので阻止する*/
+    overflow-y: scroll;
+    overflow-x: hidden;
+}

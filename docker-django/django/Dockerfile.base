@@ -1,0 +1,15 @@
+# djangoイメージ生成用Dockerfile
+
+# ベースイメージとしてpythonコンテナをdockerHubから取り寄せる
+FROM python:3.7
+
+# アプリケーションパスを環境変数で指定
+ENV APP_PATH /opt/apps
+
+# イメージ作成用アプリケーションリストをアプリケーションパスにコピー
+COPY requirements.base.txt $APP_PATH/
+# django含むベースアプリケーションをインストール
+RUN pip install --no-cache-dir -r $APP_PATH/requirements.base.txt
+
+# 作業ディレクトリをアプリケーションパスに移動
+WORKDIR $APP_PATH

@@ -1,0 +1,60 @@
+{#ベーステンプレートに内容を展開する#}
+{% extends "base.html" %}
+{#静的ファイルのURLを読み込む#}
+{% load static %}
+
+{#ブラウザに表示するタイトル#}
+{% block page_title %}Upload - Retriever --Image Rungling System-- {% endblock %}
+
+{#追加CSSの読み込み#}
+{% block extra_css %}
+<!--ナビゲーションメニュー用CSS-->
+<link rel="stylesheet" type="text/css" href="{% static 'retriever/nav.css' %}">
+<!--ファイル選択コントロール用CSS-->
+<link rel="stylesheet" type="text/css" href="{% static 'retriever/upload.css' %}">
+
+{% endblock %}
+
+{#ナビゲーションメニューを展開#}
+{% block nav %}
+{% include "nav.html" %}
+{% endblock %}
+
+{#アップロードページ本体を展開#}
+{% block content %}
+<!--ページタイトル-->
+<h1 class="row justify-content-center">Media upload</h1>
+<!--エラーメッセージはココに入る-->
+{% if error_message %}<div class="bg-danger">{{ error_message }}</div>{% endif %}
+<!--アップロードフォーム-->
+<form action="" method="POST" enctype="multipart/form-data" style="text-align:center">
+    <!--ファイルアップロードエリア-->
+    <div class="form-group">
+        <label for="file">複数ファイルをアップロードできます。ZIPファイルは自動で展開し、メディアファイルのみを抽出します。</label>
+        <div id="file" class="input-group">
+            <div class="custom-file">
+                <input type="file" id="cutomfile" class="custom-file-input" name="uplode_file" lang="ja" multiple />
+                <label class="custom-file-label" for="customfile">ファイル選択...</label>
+            </div>
+            <div class="input-group-append">
+                <button type="button" class="btn btn-outline-secondary reset">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!--手動で返すときはCSRFトークンの付与を忘れずに-->
+    {% csrf_token %}
+    
+    <!--サブミットボタンはスクロール追従にする-->
+    <div class="fixed">
+        <!--ブラウザにPOSTリクエストを投げさせてる。-->
+        <button type="submit">アップロード</button>
+    </div>
+</form>
+{% endblock %}
+
+{#追加JSの読み込み#}
+{% block extra_js %}
+<!--ファイル選択コントロールを駆動し、ファイル送信処理を行うJS-->
+<script src="{% static 'retriever/upload.js' %}"></script>
+{% endblock %}

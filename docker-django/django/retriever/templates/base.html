@@ -1,0 +1,63 @@
+{# --- ページレンダリングの骨格用ベースファイル --- #}
+<!doctype html>
+{#static命令の使用を宣言#}
+{% load static %}
+{#bootstrap4の仕様を宣言#}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery=True %}
+
+<html lang="ja">
+    <head>
+        {# --- jquery ui --- #}
+        {# jquery module contained with bootstrap #}
+
+        <!-- jquery ui 本体 -->
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+        <!-- jquery ui デザイン定義CSS -->
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+        <!-- jquery ui をスマートフォンで使えるようにするパッチ -->
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js'></script>
+
+        <!-- 表示レンダリング周りの設定 -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <!-- ページタイトル挿入ブロック -->
+        <title>{% block page_title %}{% endblock %}</title>
+
+        <!--サービス全体で使い回したいCSSはココに列挙-->
+        <link rel="stylesheet" type="text/css" href="{% static 'retriever/base.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'retriever/popup.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'retriever/AutoCompleteWithPullDown.css' %}">
+        
+        <!-- 追加CSSはここに展開 -->
+        {% block extra_css %}{% endblock %}
+
+        <!-- faviconの配信設定 -->
+        <link rel="icon" href={% static 'retriever/favicon.ico' %}>
+        <link rel="apple-touch-icon" type="image/png" href={% static 'retriever/apple-touch-icon-180x180.png'%}>
+        <link rel="icon" type="image/png" href={% static 'retriever/icon-192x192.png'%}>
+
+    </head>
+
+    <body>
+        <!-- ナビゲーションをページ先頭にレンダリング -->
+        {% block nav %}{% endblock %}
+
+        <!-- コンテンツを包んで散らかさないようにするブロック -->
+        <main role="main">
+            {% block content %}{% endblock %}
+        </main>
+
+        <!--サービス全体で使い回したい自作ライブラリ等はココに列挙-->
+        <script src="{% static 'retriever/popup.js' %}"></script>
+        <script src="{% static 'retriever/hiddenInput.js' %}"></script>
+        <script src="{% static 'retriever/AutoCompleteWithPullDown.js' %}"></script>
+
+        <!-- 追加JSはここに展開 -->
+        {% block extra_js %}{% endblock %}
+    </body>
+</html>

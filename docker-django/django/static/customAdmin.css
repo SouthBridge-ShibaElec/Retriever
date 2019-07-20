@@ -1,0 +1,4 @@
+/*アップロード済みファイル管理画面のサムネイルサイズを設定*/
+#result_list .field-MediaTag img{
+    height: 200px;
+}

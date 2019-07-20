@@ -1,0 +1,41 @@
+{#ベーステンプレートに内容を展開する#}
+{% extends "base.html" %}
+{#s静的ファイルのURLを読み込む#}
+{% load static %}
+
+{#ブラウザに表示するタイトル -- トップページなのでサービスタイトルをそのまま#}
+{% block page_title %}Retriever --Image Rungling System-- {% endblock %}
+
+{#トップページ用のCSSをロード#}
+{% block extra_css %}
+<!--ナビゲーションメニュー用CSS-->
+<link rel="stylesheet" type="text/css" href="{% static 'retriever/nav.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'retriever/index.css' %}">
+{% endblock %}
+
+{#ナビゲーションメニューを読み込ませる#}
+{% block nav %}
+{% include "nav.html" %}
+{% endblock %}
+
+{#トップページでの表示コンテンツ#}
+{% block content %}
+<!--サービスアイコンを大きく表示-->
+<img class="imageIcon row justify-content-center" src="{% static 'retriever/icon-192x192.png'%}">
+
+<!--メインタイトル-->
+<h1 class="row justify-content-center">Welcome to Retriever</h1>
+<!--サブタイトル-->
+<h2 class="row justify-content-center">--Media Rungling System--</h2>
+
+<!--ココにはサービスの使い方とかを記述したい-->
+<p>このシステムは画像ファイルや動画ファイルを収集し、利用しやすいように取り出せるよう管理します。</p>
+<p>操作画面ごとの機能は以下のとおりです。</p>
+<ul class="functionDeteal">
+    <li><span><strong>Browse</strong></span><span>登録されているファイルをランダムに取得し、全画面表示します。</span></li>
+    <li><span><strong>Classify</strong></span><span>アップロードされたファイルを、ジャンルごとに分類する機能を提供します。</span></li>
+    <li><span><strong>Upload</strong></span><span>ファイルのアップロードを受け付けます。このシステムには画像ファイル、動画ファイル、およびそれらを含むZIP圧縮ファイルを登録できます。</span></li>
+    <li><span><strong>Reject</strong></span><span>暫定で保管した管理除外ファイルを操作できます。ファイルの管理を停止する場合は「reject」ジャンルに登録し、この画面でファイルの再分類または削除を行ってください。</span></li>
+    <li><span><strong>Comic edit</strong></span><span>このシステムではファイルを連番管理できます。「漫画」という単位でジャンルおよびファイルの並び順を登録すると、Browse画面で順番が崩れずに表示されます。</span></li>
+</ul>
+{% endblock %}

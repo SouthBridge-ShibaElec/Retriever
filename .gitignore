@@ -1,0 +1,9 @@
+__pycache__/
+*.tar
+log/
+djangoLog/
+nginxLog/
+nginxStatic/
+nginxMedia/
+postgreData/
+migrations/

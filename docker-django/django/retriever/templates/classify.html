@@ -1,0 +1,96 @@
+{#ベーステンプレートに展開#}
+{% extends "base.html" %}
+{#静的ファイルのURLを読み込み#}
+{% load static %}
+
+{#ブラウザに表示するタイトル#}
+{% block page_title %}Media classify - Retriever --Image Rungling System-- {% endblock %}
+
+{#追加CSSの読み込み#}
+{% block extra_css %}
+<!--ナビゲーションメニュー用CSS-->
+<link rel="stylesheet" type="text/css" href="{% static 'retriever/nav.css' %}">
+<!--メディア分類画面用CSS-->
+<link rel="stylesheet" type="text/css" href="{% static 'retriever/classify.css' %}">
+<!--jquery UI 複数選択エリア用CSS-->
+<link rel="stylesheet" type="text/css" href="{% static 'retriever/mediaselector.css' %}">
+{% endblock %}
+
+{#ナビゲーションメニューを展開#}
+{% block nav %}
+{% include "nav.html" %}
+{% endblock %}
+
+{#ページ本体を展開#}
+{% block content %}
+<!--ページタイトル-->
+<h1 class="row justify-content-center">Media genre classify panel</h1>
+<!--POST送信用データを集める非レンダリングフォーム-->
+<!--送信予定データはJSで集めてココにappendしていく-->
+<form id="hiddenForm" action="{% url 'classify' %}" method="POST">
+    <!--CSRFトークンをココに入れておくとそのまま飛ばせる-->
+    {% csrf_token %}
+</form>
+
+<!--アップロード画面から遷移時にエラーがあったらココに表示-->
+{% if uploadErr %}
+    <div class="uploadError">
+        {% for errorMessage in uploadErr%}
+        <strong class="text-danger">{{ errorMessage }}</strong>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<!--jquery UI 複数選択エリア-->
+<ul id="mediaSelector" class="card">
+    <!--リストが空の場合は個々にエラーメッセージが出る-->
+    {#contextにbrankListキーワードが存在する場合はエラーメッセージとして表示し処理を止める#}
+    {% if blankList %}
+        <p>{{ blankList }}</p>
+    {#contextにbrankListキーワードが存在しない場合はメディアファイルのリストをレンダリング#}
+    {% else %}
+        {#recordListからレコードを抜き出し、選択用カードとしてレンダリングしていく#}
+        {% for recordPick in recordList %}
+        <!--JSではカード本体に乗っているプライマリキーを拾う-->
+        <li class="card-body ui-state-default" pk="{{ recordPick.pk }}">
+            <!--画像にはpopupクラスを指定し、クリックポップアップさせるJSに紐つける-->
+            <img class="popup" src="{{ recordPick.mediafile.url }}">
+            <!--コレはデバッグ用。無くしてもいいかも。-->
+            <p class="card-text hidden">{{ recordPick.pk }}</p>
+            <!--ファイル名で内容を推測しやすくする-->
+            <p class="card-text">{{ recordPick.filename }}</p>
+            <!--登録日を表示して新しいファイルを残せるようにする-->
+            <p class="card-text">{{ recordPick.madedate|date:"Y年m月d日  H:i:s  u" }}</p>
+        </li>
+        {% endfor %}
+    {% endif %}
+</ul>
+
+<!--ページ下部スクロール追従エリアに集中コントロールを配置-->
+<div class="bottomInput fixed">
+    <!--登録先ジャンルを選択するプルダウンメニューを配置-->
+    <select name="genre_pk" id="genreSelector" class="overflow">
+        {#ジャンルの選択肢をgenreListから生成#}
+        {#optionにプライマリキーをvalue属性としてもたせる#}
+        {% for genre in genreList %}
+        <option value="{{ genre.pk }}">{{ genre.genrename }}</option>
+        {% endfor %}
+    </select>
+
+    <!--JSで駆動するサブミットボタン。データをかき集めてPOSTするJSが走る-->
+    <input id="setGenre" type="button" value="ジャンル設定">
+    
+    <!--ファイル選んでないよエラーはココに出す-->
+    {% if selectErr %}<strong class="text-danger">{{ selectErr }}</strong>{% endif %}
+    <!--ジャンル指定してないよエラーはココに出す-->
+    {% if genreErr %}<strong class="text-danger">{{ genreErr }}</strong>{% endif %}
+
+</div>
+
+{% endblock %}
+
+{#追加JSの読み込み#}
+{% block extra_js %}
+<!--画像の選択とジャンル付け要求を飛ばすJS-->
+<script src="{% static 'retriever/classify.js' %}"></script>
+{% endblock %}

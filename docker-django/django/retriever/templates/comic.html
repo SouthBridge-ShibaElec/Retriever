@@ -1,0 +1,173 @@
+{#ベーステンプレートに展開#}
+{% extends "base.html" %}
+{#静的ファイルのURLを展開#}
+{% load static %}
+
+{#ブラウザに表示するタイトル#}
+{% block page_title %}Comic Edit - Retriever --Image Rungling System-- {% endblock %}
+
+{#追加CSSの読み込み#}
+{% block extra_css %}
+<!--ナビゲーションメニュー用CSS-->
+<link rel="stylesheet" type="text/css" href="{% static 'retriever/nav.css' %}">
+<!--ファイル複数選択コントロール用CSS-->
+<link rel="stylesheet" type="text/css" href="{% static 'retriever/mediaselector.css' %}">
+<!--漫画編集画面用CSS-->
+<link rel="stylesheet" type="text/css" href="{% static 'retriever/comic.css' %}">
+{% endblock %}
+
+{#ナビゲーションメニューを展開#}
+{% block nav %}
+{% include "nav.html" %}
+{% endblock %}
+
+{#メインコンテンツを展開#}
+{% block content %}
+<!--ページタイトル-->
+<h1>Comic page edit panel</h1>
+
+<!--POST送信データ収集用隠しフォーム-->
+<form action="{% url 'comic' %}" method="post" id="hiddenForm" style="display:none">
+    <!--CSRFトークンをココに展開-->
+    {% csrf_token %}
+</form>
+
+
+<!--登録がないコマンドが来たエラーはココに表示される-->
+{% if commandError %}
+    <strong class="text-danger">{{ commandError }}</strong>
+{% endif %}
+
+
+<!--要素全体を包むDOM-->
+<!--formである必要を感じないのでCSSと合わせて要修正-->
+<form>
+    
+    <!--編集対象漫画選択画面-->
+    <div class="comicBox">
+        <!--漫画新規作成エリア-->
+        <div class="new_comic">
+            <!--名称を決めるテキストボックス-->
+            <label>
+                漫画タイトル：
+                <input type="text" name="make_comic_name" maxlength="127">
+            </label>
+            <!--ジャンル設定用自由入力付きセレクトボックス-->
+            <label>
+                ジャンル：
+                <select name="genre_pk" id="genreSelector" class="overflow">
+                    {% for genre in genreList %}
+                    <option value="{{ genre.pk }}">{{ genre.genrename }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <!--漫画新規作成用サブミットボタン-->
+            <input type="button" id="makeComic" value="漫画を作成">
+        </div>
+        <!--漫画作成関連のエラーはココに表示される-->
+        {% if comicError %}
+            <strong class="text-danger">{{ comicError }}</strong>
+        {% endif %}
+
+        <!--編集予定漫画選択エリア-->
+        <ul class="comic_list">
+            {% for comic in comicRecord %}
+                {#選択中の要素は表示を変える#}
+                {% if comic.comicList.pk == comicPK|add:0 %}
+                    <!--選択中の漫画は表示を変える-->
+                    <!--選択中カードにプライマリキーを持たせて、JSから参照する-->
+                    <li class="comic_record active" pk="{{ comic.comicList.pk }}">
+                        <div class="mediaFlame">
+                            <img src="{{ comic.comicSumb }}" class="popup">
+                        </div>
+                        <!--選択中の漫画はリンクを付けず、押させない-->
+                        <div class="detail">
+                            <p>
+                                {{ comic.comicList.comicname }}
+                            </p>
+                            <span>
+                                {{ comic.comicList.genre }}
+                            </span>
+                        </div>
+                    </li>
+                {% else %}
+                    <!--非選択の漫画はタイトル部を遷移リンクにする。-->
+                    <li class="comic_record">
+                        <div class="mediaFlame">
+                            <img src="{{ comic.comicSumb }}" class="popup">
+                        </div>
+                        <a href="{% url 'comic' %}?comic_pk={{ comic.comicList.pk }}">
+                            <div class="detail">
+                                <p>
+                                    {{ comic.comicList.comicname }}
+                                </p>
+                                <span>
+                                    {{ comic.comicList.genre }}
+                                </span>
+                            </div>
+                        </a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!--ファイル選択画面-->
+    <div class="mediaBox">
+        <!--jquery UIを使用した複数選択フィールド-->
+        <ul id="mediaSelector" class="media_list card">
+            <!--プライマリキーはカード自体に持たせている。仕様を統一すること-->
+            {% for media in mediaList %}
+                <li class="media_record card-body ui-state-default" pk="{{ media.pk }}">
+                    <img class="popup" src="{{ media.mediafile.url }}">
+                    <p class="card-text hidden">{{ media.pk }}</p>
+                    <p class="card-text">{{ media.filename }}</p>
+                    <p class="card-text">{{ media.madedate|date:"Y年m月d日" }}</p>
+                    <p class="card-text">{{ media.madedate|date:"H : i : s  u" }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+        <!--選択したファイルを漫画に追加するサブミットボタン-->
+        <input type="button" id="setMedia" value="漫画へ追加">
+    </div>
+
+    <!--ページ順指定画面-->
+    <div class="pageBox">
+        <!--登録済みファイルリストエリア-->
+        <ul class="page_list" id="pageSorter">
+            {#djangoからは現状設定済みのページ順ソート済みデータが届く。#}
+            {% for page in pageList %}
+                {#JSで集めるプライマリキーはカード自体に埋め込まれた属性値#}
+                <li class="ui-state-default" pk="{{ page.pk }}">
+                    <div class="mediaFlame">
+                        <img class="popup" src="{{ page.mediafile.url }}">
+                    </div>
+                    <div class="recordDetail">
+                        <p class="card-text hiddenPK">{{ page.pk }}</p>
+                        <p class="card-text">{{ page.filename }}</p>
+                        <p class="card-text">{{ page.madedate|date:"Y年m月d日" }}</p>
+                        <p class="card-text">{{ page.madedate|date:"H : i : s  u" }}</p>
+
+                        <!--登録済みページ除去ボタン-->
+                        <input type="button" class="pageReject" value="ページを除去" pk="{{ page.pk }}">
+                    </div>
+                    <p class="card-text pageNum">ページ <br>-{{ page.comicpage }}-</p>
+                </li>
+            {% endfor %}
+        </ul>
+        <!--ページ関連エラーメッセージはココに出す-->
+        {% if pageError %}
+            <strong class="text-danger">{{ pageError }}</strong>
+        {% endif %}
+        <!--ページ順更新サブミットボタン-->
+        <input type="button" id="setPage" value="ページ順を設定">
+    </div>
+</form>
+
+{% endblock %}
+
+{#追加JSの読み込み#}
+{% block extra_js %}
+<!--データを収集し振り分けて送信するJS-->
+<script src="{% static 'retriever/comic.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,9 @@
+/*コンテンツがナビゲーションバーに刺さらないようにする*/
+main {
+    padding-top: 9rem;
+}
+
+/*ナビゲーションメニューの背景にグラデーションを指定*/
+.navbar {
+    background: #51a1a2 linear-gradient(180deg, #7fa1a1, #51a1a2) repeat-x !important
+}

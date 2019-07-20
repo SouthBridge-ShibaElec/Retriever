@@ -1,0 +1,19 @@
+/*スクロール追従エリアの表示設定*/
+/*スクロール追従エリア内フォームコントロールの配置を指定*/
+.bottomInput.fixed{
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+
+    width: 100vw;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background: #c8c8c8 linear-gradient(180deg, #f0f0f0, #c8c8c8) repeat-x !important;
+    padding: 0.5rem;
+}
+.bottomInput.fixed > * {
+    margin: 0.5rem;
+}

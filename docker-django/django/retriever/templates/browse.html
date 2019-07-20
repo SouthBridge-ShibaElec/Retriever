@@ -1,0 +1,87 @@
+{#ベーステンプレートに展開#}
+{% extends "base.html" %}
+{#静的ファイルのURLを展開#}
+{% load static %}
+
+{#ブラウザに表示するタイトル#}
+{% block page_title %}Browse - Retriever --Image Rungling System-- {% endblock %}
+
+{#追加CSSの読み込み#}
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'retriever/browse.css' %}">
+{% endblock %}
+
+{#メインコンテンツを展開#}
+{% block content %}
+<!--サーバ通信用データを集めておく隠しフォーム-->
+<form action="{% url 'comic' %}" method="post" id="hiddenForm" style="display:none">
+    <!--CSRFトークンを貰っておく。後々のAjax通信で使用-->
+    {% csrf_token %}
+</form>
+
+<!--画面中央エリア-->
+<div class="mainArea">
+    <!--表示ジャンル選択画面-->
+    <div class="genreSelect">
+        <div class="listBox">
+            <!--閲覧ジャンルを複数選択コントロールで選ばせる-->
+            <ul id="genreList">
+                {% for genre in genreList %}
+                <li value="{{ genre.pk }}">{{ genre.genrename }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <!--Ajax通信でメディアファイルのランダム送信を要求-->
+        <input type="button" id="startBrowse" value="閲覧開始">
+    </div>
+
+    <!--画像ファイル表示画面-->
+    <div class="imageBox disable">
+        <!--画像が届いたら画像配信URLを代入して、ボックスの非表示を解除-->
+        <img src="">
+    </div>
+
+    <!--動画ファイル表示画面-->
+    <div class="videoBox disable">
+        <!--動画が届いたら動画配信URLを代入して、ボックスの非表示を解除-->
+        <!--ブラウザコントロールを利用、ダウンロード終了で自動再生、ループ再生-->
+        <!--動画ファイルはmp4ファイルに統一すること。-->
+        <video controls loop autoplay src="" type="video/mp4"></video>
+    </div>
+</div>
+
+<!--画面左端　戻るボタン-->
+<div class="prev">
+    <span class="iconWrapper"><span class="ui-icon ui-icon-triangle-1-w"></span></span>
+</div>
+
+<!--画面右端　進むボタン-->
+<div class="next">
+    <span class="iconWrapper"><span class="ui-icon ui-icon-triangle-1-e"></span></span>
+</div>
+
+<!--画面上　既読プログレス表示エリア-->
+<div class="progress">
+    <!--プログレスの実ファイル数表示-->
+    <span class="progressLabel">Loading...</span>
+    <!--漫画閲覧中のページ数表示-->
+    <span class="comicLabel disable"><span class="now">None</span>/<span class="all">None</span>pages<span class="pk disable"></span> </span>
+    <!--bootstrapを用いたプログレスバー表示-->
+    <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+
+<!--画面下　コントロールエリア-->
+<nav class="operation">
+    <!--サービストップページへのリンク-->
+    <a href="{% url 'index' %}" class="backIndex">
+        <span class="iconWrapper"><span class="ui-icon ui-icon-arrowreturnthick-1-w"></span></span>
+    </a>
+    <!--ファイルの管理除外指定ボタン-->
+    <span class="iconWrapper reject"><span class="ui-icon ui-icon-trash"></span></span>
+</nav>
+{% endblock %}
+
+{#追加JSの読み込み#}
+{% block extra_js %}
+<script src="{% static 'retriever/browse.js' %}"></script>
+{% endblock %}

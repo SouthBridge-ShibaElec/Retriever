@@ -1,0 +1,23 @@
+/*サービスアイコンを中央揃えにする*/
+.imageIcon {
+    margin: 0px auto;
+    margin-bottom: 68px;
+}
+
+/*タイトルの下に余白を入れる*/
+main > h2 {
+    margin-bottom: 68px;
+}
+
+/*機能説明エリアの表示設定*/
+.functionDeteal{
+    /*エリアを中央辺りに表示する*/
+    margin: 0px auto;
+
+    /*行間を広くする*/
+    line-height: 2rem;
+}
+/*機能説明エリアの見出しに伸ばし棒をつける*/
+.functionDeteal strong:after{
+    content: " --";
+}

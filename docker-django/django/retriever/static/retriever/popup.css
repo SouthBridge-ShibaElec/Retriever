@@ -1,0 +1,51 @@
+/*
+ポップアッププレビュー要表示設定
+popup.jsと合わせて使用すること
+*/
+
+/*
+プレビュー用DIV箱の表示設定
+画面に対し固定、画面全面を覆うこと。
+子要素を縦横中央に表示すること。
+*/
+#previewLayer {
+    /*画面サイズ全域に*/
+    width: 100vw;
+    height: 100vh;
+
+    /*位置を固定、最前面に表示*/
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 2000;
+
+    /*flexboxの力を使って子要素を縦横中央揃えに*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    /*背景を薄透明に指定、マージンシリーズを無しに、カーソルを変えて押せる感を出す*/
+    background-color: rgba(255, 255, 255, 0.4);
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+/*
+プレビューエリア内コンテンツの表示設定
+maxプロパティを使ってアスペクト比を維持して引き伸ばす計算をさせる
+*/
+#previewLayer > * {
+    /*サイズを全画面よりやや小さく*/
+    max-width: 90vw;
+    max-height: 90vh;
+
+    /*自動マージンでしっかり中央揃え*/
+    margin: auto auto;
+
+    /*外枠と影をつけて浮き上がらせる*/
+    border: 7px solid white;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}

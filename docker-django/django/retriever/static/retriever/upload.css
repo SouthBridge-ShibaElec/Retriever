@@ -1,0 +1,88 @@
+/*アップロード画面レイアウト指示用CSS*/
+
+/*ファイル選択ボタンのラベルを張り替える*/
+.custom-file-input:lang(ja) ~ .custom-file-label::after {
+    content: "参照";
+}
+
+/*ファイル選択エリアの横幅を規定*/
+#file {
+    width: 61.8%;
+    margin: 0px auto;
+}
+/*ファイル選択エリアの横幅を制限*/
+.custom-file {
+    overflow: hidden;
+}
+/*ファイル選択エリア内のラベル表記を規定*/
+.custom-file-label {
+    white-space: nowrap;
+}
+/*アップロードコントロール上空を押せそうにする*/
+#cutomfile {
+    cursor: pointer;
+}
+
+
+/*プレビュー格納エリアの表示設定*/
+
+/*カードレイアウトにする。配置はflexboxに自動計算させる*/
+#preview {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: flex-start;
+}
+/*カードの表示設定*/
+/*カード内で中央揃え、カードの幅、外枠、余白を指定*/
+#preview > .previewCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+
+    width: 200px;
+    box-sizing: content-box;
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    margin: 1.25rem 0;
+    padding: 1.25rem;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+    background-color: #f6f6f6;
+
+    font-weight: normal;
+    font-size: 1rem;
+    word-break: break-all;
+    white-space: normal;
+}
+/*カード内コンテンツの表示設定*/
+/*ブロックコンテンツとしてflexboxで管理しやすく、カードからはみ出ないように*/
+#preview > div > * {
+    display: block;
+    max-width: 200px;
+}
+/*カード内ファイル名表記の設定*/
+#preview > div > div, #preview > div > span {
+    word-wrap: break-word;
+}
+
+/*スクロール追従サブミットボタンエリアの表示設定*/
+.fixed {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+
+    width: 100vw;
+
+    background: #c8c8c8 linear-gradient(180deg, #f0f0f0, #c8c8c8) repeat-x !important;
+}
+/*スクロール追従エリアが刺さらないようにする*/
+main {
+    margin-bottom: 9rem;
+}
+.fixed > button {
+    margin: 1rem auto;
+}
