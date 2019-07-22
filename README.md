@@ -9,10 +9,9 @@ Docker上で動作する宅内LAN用Webアプリケーションです。
 Retrieverは、Dockerとdocker-compose、jwilder/nginx-proxyに依存しています。
 下記リンクの内容に従い、先に環境構築を済ませてください。
 
-----
-
 [複数のWebアプリを1サーバーのDockerを使ってSSL対応のサブドメインで簡単に運用する | QUARTETCOM TECH BLOG](https://tech.quartetcom.co.jp/2017/04/11/multiple-ssl-apps-on-one-docker-host/)
 
+----
 
 Retrieverは下記リンクのコードをベースにして開発したため、デプロイ手順は基本的に下記リンクに沿って進めます。
 
