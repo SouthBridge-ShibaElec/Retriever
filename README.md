@@ -14,7 +14,6 @@ Docker上で動作する宅内LAN用Webアプリケーションです。
 作品にはジャンルを設定することができます。
 ランダムに閲覧したい作品をジャンルで指定することができ、配信を受ける作品を制御できます。
 
-![ファイル分類画面キャプチャ](https://raw.github.com/wiki/SouthBridge-ShibaElec/Retriever/Digi_face-1140317265860030464-20190617_025636-img1.jpg)
 <img src="https://raw.github.com/wiki/SouthBridge-ShibaElec/Retriever/Digi_face-1140317265860030464-20190617_025636-img1.jpg" width="700px">
 
 複数のファイルを順番付けて、「漫画」という単位で管理することが可能です。
