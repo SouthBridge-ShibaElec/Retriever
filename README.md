@@ -83,3 +83,9 @@ nginxから配信する静的ファイルを収集します。
 $docker-compose down
 $docker-compose up -d
 ```
+
+## 既知の問題点
+
+Retrieverはまだ荒削りです。
+現在把握している問題があります。
+使用する際は注意してください。
