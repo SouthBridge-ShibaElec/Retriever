@@ -29,10 +29,33 @@ Dockerfile.baseが見えることを確認して、アプリケーションサ�
 $docker build -t django2.1 -f ./django/Dockerfile.base ./django
 ```
 Dockerイメージの順が整ったので、システムをupします。
+nginx-proxyのコンテナが2つ、Retrieverのコンテナが３つが安定して起動していることを確認してください。
 ```
 $docker-compose up -d
 $docker ps -a
 ```
-nginx-proxyのコンテナが2つ、Retrieverのコンテナが３つが安定して起動していることを確認してください。
-
 (アプリケーションサーバ用コンテナがrestartを繰り返すことがあります。`docker-compose down`してから、再度`docker-compose up -d`してください。)
+
+コンテナが起動したら、Retrieverを動作させるためにDjangoの設定をしていきます。
+
+アプリケーションサーバ用コンテナのシェルに入り、manage.pyが見えることを確認します。
+```
+$dodcker exec -it docker-django_retriever_django_1 bash
+#ls
+```
+Retrieverで使用するデータベーステーブルを作成します。
+```
+#python3 manage.py makemigrations retriever
+#python3 manage.py migrate
+```
+
+nginxから配信する静的ファイルを収集します。
+```
+#python3 manage.py collectstatic
+```
+
+コンテナのシェルを出て、Retrieverシステムを再起動したら使用準備が完了です。
+```
+$docker-compose down
+$docker-compose up -d
+```
