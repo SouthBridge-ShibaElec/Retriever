@@ -9,23 +9,22 @@ Docker上で動作する宅内LAN用Webアプリケーションです。
 このWebアプリケーションは、収集した画像や動画を集中管理し、閲覧したいときにランダムに配信します。
 スマートフォンやタブレット、パソコンにインストールされているWebブラウザに画像を全画面表示し、作品を楽しむことができます。
 
-![スマートフォン縦画面キャプチャ](https://raw.github.com/wiki/SouthBridge-ShibaElec/Retriever/Digi_face-1140317265860030464-20190617_025636-img3.jpg)
-
 <img src="https://raw.github.com/wiki/SouthBridge-ShibaElec/Retriever/Digi_face-1140317265860030464-20190617_025636-img3.jpg" width="500px">
 
 作品にはジャンルを設定することができます。
 ランダムに閲覧したい作品をジャンルで指定することができ、配信を受ける作品を制御できます。
 
 ![ファイル分類画面キャプチャ](https://raw.github.com/wiki/SouthBridge-ShibaElec/Retriever/Digi_face-1140317265860030464-20190617_025636-img1.jpg)
+<img src="https://raw.github.com/wiki/SouthBridge-ShibaElec/Retriever/Digi_face-1140317265860030464-20190617_025636-img1.jpg" width="700px">
 
 複数のファイルを順番付けて、「漫画」という単位で管理することが可能です。
 
-![漫画編集画面キャプチャ](https://raw.github.com/wiki/SouthBridge-ShibaElec/Retriever/Digi_face-1140317265860030464-20190617_025636-img2.jpg)
+<img src="https://raw.github.com/wiki/SouthBridge-ShibaElec/Retriever/Digi_face-1140317265860030464-20190617_025636-img2.jpg" width="700px">
 
 漫画として登録された作品群は、ランダム配信時にページ順を崩さず配信されます。
 漫画作品と単一ファイル作品を、混ぜ込んでランダムに楽しむことができます。
 
-![スマートフォン横画面漫画閲覧中キャプチャ](https://raw.github.com/wiki/SouthBridge-ShibaElec/Retriever/Digi_face-1140317265860030464-20190617_025636-img4.jpg)
+<img src="https://raw.github.com/wiki/SouthBridge-ShibaElec/Retriever/Digi_face-1140317265860030464-20190617_025636-img4.jpg" width="700px">
 
 ## デプロイ手順
 
