@@ -11,6 +11,8 @@ Docker上で動作する宅内LAN用Webアプリケーションです。
 
 ![スマートフォン縦画面キャプチャ](https://raw.github.com/wiki/SouthBridge-ShibaElec/Retriever/Digi_face-1140317265860030464-20190617_025636-img3.jpg)
 
+<img src="https://raw.github.com/wiki/SouthBridge-ShibaElec/Retriever/Digi_face-1140317265860030464-20190617_025636-img3.jpg" width="500px">
+
 作品にはジャンルを設定することができます。
 ランダムに閲覧したい作品をジャンルで指定することができ、配信を受ける作品を制御できます。
 
