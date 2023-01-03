@@ -64,7 +64,7 @@ $docker ps -a
 
 アプリケーションサーバ用コンテナのシェルに入り、manage.pyが見えることを確認します。
 ```
-$dodcker exec -it docker-django_retriever_django_1 bash
+$docker exec -it docker-django_retriever_django_1 bash
 #ls
 ```
 Retrieverで使用するデータベーステーブルを作成します。
