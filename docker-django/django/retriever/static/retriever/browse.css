@@ -95,9 +95,9 @@ main{
 span.iconWrapper{
     background: rgba(0,0,0,.125);
 }
-/*アイコン用画像は取り寄せ。アイコン画像の位置はbootstrapがやってくれる　*/
+/*アイコン用画像は内部配信。アイコン画像の位置はbootstrapがやってくれる　*/
 span.ui-icon{
-    background-image: url("https://code.jquery.com/ui/1.12.1/themes/base/images/ui-icons_ffffff_256x240.png");
+    background-image: url("/static/retriever/ui-icons_ffffff_256x240.png");
 }
 
 
@@ -215,7 +215,11 @@ span.ui-icon{
 .disable{
     display: none;
 }
+/*ボタン押された感を出したいとき*/
+span.iconWrapper.pressed{
+    background: rgba(50, 230, 140, 0.35);
+}
 /*ボタン押せない感を出したいとき*/
-span.error{
+span.iconWrapper.error{
     background: rgba(230, 50, 50, 0.35);
 }

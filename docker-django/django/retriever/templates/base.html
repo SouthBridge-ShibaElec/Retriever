@@ -2,23 +2,27 @@
 <!doctype html>
 {#static命令の使用を宣言#}
 {% load static %}
-{#bootstrap4の仕様を宣言#}
-{% load bootstrap4 %}
-{% bootstrap_css %}
-{% bootstrap_javascript jquery=True %}
 
 <html lang="ja">
     <head>
-        {# --- jquery ui --- #}
-        {# jquery module contained with bootstrap #}
+        <!-- jquery 本体-->
+        <script src="{% static 'retriever/jquery-3.6.3.min.js' %}"></script>
+        <!-- Bootstrap 本体-->
+        <script src="{% static 'retriever/bootstrap4.bundle.min.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'retriever/bootstrap4.min.css' %}">
+        <!-- BootstrapはjqueryUIより先に設置すること！ -->
+
 
         <!-- jquery ui 本体 -->
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+        <script src="{% static 'retriever/jquery-ui.min.js' %}"></script>
         <!-- jquery ui デザイン定義CSS -->
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="{% static 'retriever/jquery-ui.css' %}">
+        <link rel="stylesheet" href="{% static 'retriever/jquery-ui.structure.css' %}">
+        <link rel="stylesheet" href="{% static 'retriever/jquery-ui.theme.css' %}">
 
         <!-- jquery ui をスマートフォンで使えるようにするパッチ -->
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js'></script>
+        <script src="{% static 'retriever/jquery.ui.touch-punch.min.js' %}"></script>
+
 
         <!-- 表示レンダリング周りの設定 -->
         <meta charset="utf-8">
@@ -37,9 +41,9 @@
         {% block extra_css %}{% endblock %}
 
         <!-- faviconの配信設定 -->
-        <link rel="icon" href={% static 'retriever/favicon.ico' %}>
-        <link rel="apple-touch-icon" type="image/png" href={% static 'retriever/apple-touch-icon-180x180.png'%}>
-        <link rel="icon" type="image/png" href={% static 'retriever/icon-192x192.png'%}>
+        <link rel="icon" href="{% static 'retriever/favicon.ico' %}">
+        <link rel="apple-touch-icon" type="image/png" href="{% static 'retriever/apple-touch-icon-180x180.png'%}">
+        <link rel="icon" type="image/png" href="{% static 'retriever/icon-192x192.png'%}">
 
     </head>
 

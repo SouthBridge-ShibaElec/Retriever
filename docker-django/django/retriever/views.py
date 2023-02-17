@@ -289,6 +289,9 @@ class UpLoadView(View, RecordOperation, mediaDirectory):
 
     # POSTが来たらフォームモジュールがよしなにしてくれたデータをデータベースに登録
     def post(self, request, *args, **kwargs):
+        # エラーメッセージ収集用のリストをクリア
+        self.uploadErr.clear()
+
         # 後で使うオブジェクトを仕込んでおく
 
         # 重複対策ファイル名除外用Regexオブジェクト
@@ -487,7 +490,7 @@ class ComicEditView(View, dataCast, RecordOperation, mediaDirectory):
     # 画面表示に使うためのデータリストを生成する
     def getList(self,):
         # データリストを種別ごとに取得し保持。
-        comicList = Comics.objects.all().order_by('genre')                              # ジャンル順に並べて同ジャンルの漫画が塊になるように
+        comicList = Comics.objects.all().order_by('-pk')                                # 新規作成漫画がなるべく先頭になるように
         genreList = MediaGenre.objects.all().order_by('genrename')                      # 文字コード順に並べてジャンル名から調べやすく
         mediaList = MediaFiles.objects.filter(genre__isnull=True).order_by('madedate')  # 登録日順に並べて古いファイルから処理させる
         

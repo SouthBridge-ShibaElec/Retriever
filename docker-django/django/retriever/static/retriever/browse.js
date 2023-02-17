@@ -201,6 +201,11 @@ $('.next').click(function(e){
 
     printArchivePointer('次へ処理後');
 });
+//ボタンクリック時の反応を追加
+$('.next').click(function(){
+    $('.next .iconWrapper').addClass('pressed');
+    setTimeout("$('.next .iconWrapper').removeClass('pressed')", 500);
+});
 
 
 //巻き戻しボタンを押されたときの処理
@@ -224,6 +229,11 @@ $('.prev').click(function(e){
     }
 
     printArchivePointer('戻る処理後');
+});
+//ボタンクリック時の反応を追加
+$('.prev').click(function(){
+    $('.prev .iconWrapper').addClass('pressed');
+    setTimeout("$('.prev .iconWrapper').removeClass('pressed')", 500);
 });
 
 
@@ -265,4 +275,9 @@ $('.reject').click(function(e){
         mediaArchivePointer = -1;
         $('.next').click();
     }
+});
+//ボタンクリック時の反応を追加
+$('.reject').click(function(){
+    $('.reject.iconWrapper').addClass('pressed');
+    setTimeout("$('.reject.iconWrapper').removeClass('pressed')", 500);
 });
